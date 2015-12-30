@@ -3,8 +3,7 @@ books.attachSchema(new SimpleSchema({
   title: {
     type: String,
     label: 'Title',
-    max: 200,
-    index: 1
+    max: 200
   },
   author: {
     type: String,
@@ -29,9 +28,7 @@ books.attachSchema(new SimpleSchema({
   isbn: {
     type: String,
     label: 'ISBN',
-    optional: true,
-    index: 1,
-    unique: true
+    optional: true
   },
   field1: {
     type: String,
