@@ -1,7 +1,7 @@
 Package.describe({
   name: "aldeed:schema-deny",
   summary: "Deny inserting or updating certain properties through schema options",
-  version: "1.0.1",
+  version: "1.1.0",
   git: "https://github.com/aldeed/meteor-schema-deny.git"
 });
 

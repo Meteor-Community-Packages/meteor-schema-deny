@@ -18,7 +18,7 @@ $ meteor add aldeed:schema-deny
 If you set `denyUpdate: true`, any collection update that modifies the field will fail. For instance:
 
 ```js
-var PostSchema = new SimpleSchema({
+const postSchema = new SimpleSchema({
   title: {
     type: String
   },
@@ -31,13 +31,13 @@ var PostSchema = new SimpleSchema({
   }
 });
 
-Posts = new Mongo.Collection('posts');
-Posts.attachSchema(PostSchema);
+const Posts = new Mongo.Collection('posts');
+Posts.attachSchema(postSchema);
 
-var postId = Posts.insert({title: 'Hello', content: 'World', createdAt: new Date()});
+const postId = Posts.insert({title: 'Hello', content: 'World', createdAt: new Date()});
 ```
 
-The `denyInsert` option works the same way, but for inserts. If you set `denyInsert` to true, you will need to set `optional: true` as well. 
+The `denyInsert` option works the same way, but for inserts. If you set `denyInsert` to true, you will need to set `optional: true` as well.
 
 ## Contributing
 
