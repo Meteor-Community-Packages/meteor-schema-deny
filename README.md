@@ -3,7 +3,7 @@
 aldeed:schema-deny
 =========================
 
-A Meteor package that allows you to deny inserting or updating certain properties in your database by setting options in your schema. This package is currently included automatically with the aldeed:collection2 package.
+A Meteor package that allows you to deny inserting or updating certain properties in your database by setting options in your schema.
 
 ## Installation
 
@@ -42,3 +42,17 @@ The `denyInsert` option works the same way, but for inserts. If you set `denyIns
 ## Contributing
 
 Anyone is welcome to contribute. Fork, make and test your changes (`meteor test-packages ./`), and then submit a pull request.
+
+### Running Tests
+
+```bash
+$ cd tests
+$ npm i && npm test
+```
+
+### Running Tests in Watch Mode
+
+```bash
+$ cd tests
+$ npm i && npm run test:watch
+```

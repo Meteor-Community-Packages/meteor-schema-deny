@@ -1,16 +1,9 @@
-// Extend the schema options allowed by SimpleSchema
-SimpleSchema.extendOptions({
-  denyInsert: Match.Optional(Boolean),
-  denyUpdate: Match.Optional(Boolean),
-});
+// collection2-core checks to make sure that simpl-schema package is added
+import SimpleSchema from 'simpl-schema';
+import Collection2 from 'meteor/aldeed:collection2-core';
 
-// Define validation error messages
-if (!SimpleSchema.version || SimpleSchema.version < 2) {
-  SimpleSchema.messages({
-    insertNotAllowed: '[label] cannot be set during an insert',
-    updateNotAllowed: '[label] cannot be set during an update'
-  });
-}
+// Extend the schema options allowed by SimpleSchema
+SimpleSchema.extendOptions(['denyInsert', 'denyUpdate']);
 
 Collection2.on('schema.attached', function (collection, ss) {
   if (ss.version >= 2) {
@@ -23,7 +16,7 @@ Collection2.on('schema.attached', function (collection, ss) {
   ss.addValidator(function() {
     if (!this.isSet) return;
 
-    var def = this.definition;
+    const def = this.definition;
 
     if (def.denyInsert && this.isInsert) return 'insertNotAllowed';
     if (def.denyUpdate && (this.isUpdate || this.isUpsert)) return 'updateNotAllowed';
