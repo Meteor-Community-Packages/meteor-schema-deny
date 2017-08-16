@@ -8,8 +8,10 @@ SimpleSchema.extendOptions(['denyInsert', 'denyUpdate']);
 Collection2.on('schema.attached', function (collection, ss) {
   if (ss.version >= 2) {
     ss.messageBox.messages({
-      insertNotAllowed: '{{label}} cannot be set during an insert',
-      updateNotAllowed: '{{label}} cannot be set during an update'
+      en: {
+        insertNotAllowed: '{{label}} cannot be set during an insert.',
+        updateNotAllowed: '{{label}} cannot be set during an update.'
+      }
     });
   }
 
