@@ -20,7 +20,7 @@ jobs:
       - checkout
 
       # Install Meteor
-      - run: cd tests && meteor npm install
+      - run: curl https://install.meteor.com | sh
 
       # Download and cache dependencies
       - restore_cache:
