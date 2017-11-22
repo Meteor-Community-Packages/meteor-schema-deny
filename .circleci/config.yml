@@ -30,7 +30,7 @@ jobs:
           - v1-dependencies-
 
       # https://github.com/meteor/meteor/issues/4019
-      - run: locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
+      - run: dpkg-reconfigure locales
 
       # Install dependencies
       - run: cd tests && meteor npm install
