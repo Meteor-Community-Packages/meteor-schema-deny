@@ -30,7 +30,8 @@ jobs:
           - v1-dependencies-
 
       # https://github.com/meteor/meteor/issues/4019
-      - run: dpkg-reconfigure locales
+      - run: apt-get install -y sudo
+      - run: sudo dpkg-reconfigure locales
 
       # Install dependencies
       - run: cd tests && meteor npm install
