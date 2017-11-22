@@ -6,7 +6,7 @@ import Collection2 from 'meteor/aldeed:collection2-core';
 SimpleSchema.extendOptions(['denyInsert', 'denyUpdate']);
 
 Collection2.on('schema.attached', function (collection, ss) {
-  if (ss.version >= 2) {
+  if (ss.version >= 2 && ss.messageBox && typeof ss.messageBox.messages === 'function') {
     ss.messageBox.messages({
       en: {
         insertNotAllowed: '{{label}} cannot be set during an insert.',
