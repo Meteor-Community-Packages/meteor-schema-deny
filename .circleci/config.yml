@@ -25,7 +25,10 @@ jobs:
       # https://github.com/meteor/meteor/issues/4019
       - run: sudo apt-get update
       - run: DEBIAN_FRONTEND=noninteractive sudo apt-get install -y locales
-      - run: sudo sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen &&     echo 'LANG="en_US.UTF-8"'>/etc/default/locale &&     dpkg-reconfigure --frontend=noninteractive locales &&     update-locale LANG=en_US.UTF-8
+      - run: sudo sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+      - run: sudo echo 'LANG="en_US.UTF-8"'>/etc/default/locale
+      - run: sudo dpkg-reconfigure --frontend=noninteractive locales
+      - run: sudo update-locale LANG=en_US.UTF-8
       - run: export LANG=en_US.UTF-8
 
       # Download and cache dependencies
