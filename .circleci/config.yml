@@ -14,27 +14,27 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
 
-    working_directory: ~/repo/tests
+    working_directory: ~/repo
 
     steps:
       - checkout
 
       # Install Meteor
-      - run: curl https://install.meteor.com | sh
+      - run: cd tests && meteor npm install
 
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-{{ checksum "tests/package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: meteor npm install
+      - run: cd tests && meteor npm install
 
       - save_cache:
           paths:
             - tests/node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "tests/package.json" }}
 
       # run tests!
-      - run: npm test
+      - run: cd tests && npm test
