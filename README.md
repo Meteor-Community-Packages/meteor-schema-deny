@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/aldeed/meteor-schema-deny.png?branch=master)](https://travis-ci.org/aldeed/meteor-schema-deny)
+[![CircleCI](https://circleci.com/gh/aldeed/meteor-schema-deny/tree/master.svg?style=svg)](https://circleci.com/gh/aldeed/meteor-schema-deny/tree/master)
 
 aldeed:schema-deny
 =========================
