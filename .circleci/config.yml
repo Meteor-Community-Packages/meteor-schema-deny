@@ -23,7 +23,7 @@ jobs:
       - run: curl https://install.meteor.com | sh
 
       # https://github.com/meteor/meteor/issues/4019
-      - run: apt-get install language-pack-en -y
+      - run: sudo apt-get update; sudo apt-get install language-pack-en -y
 
       # Download and cache dependencies
       - restore_cache:
