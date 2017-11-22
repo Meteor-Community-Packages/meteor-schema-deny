@@ -12,7 +12,7 @@ jobs:
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
+      - image: circleci/mongo:3.4.4
 
     working_directory: ~/repo
 
@@ -29,6 +29,10 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
+      # https://github.com/meteor/meteor/issues/4019
+      - run: locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
+
+      # Install dependencies
       - run: cd tests && meteor npm install
 
       - save_cache:
