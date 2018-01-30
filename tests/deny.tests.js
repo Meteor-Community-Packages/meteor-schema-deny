@@ -7,20 +7,20 @@ test.attachSchema(new SimpleSchema({
   denyInsert: {
     type: String,
     optional: true,
-    denyInsert: true
+    denyInsert: true,
   },
   denyUpdate: {
     type: String,
     optional: true,
-    denyUpdate: true
+    denyUpdate: true,
   },
 }));
 
-describe('deny', function () {
-  it('denyInsert', function (done) {
+describe('deny', () => {
+  it('denyInsert', (done) => {
     test.insert({
-      denyInsert: 'foo'
-    }, error => {
+      denyInsert: 'foo',
+    }, (error) => {
       expect(error && error.message).toBe('Deny insert cannot be set during an insert in test insert');
 
       const validationErrors = test.simpleSchema().namedContext().validationErrors();
@@ -34,17 +34,17 @@ describe('deny', function () {
     });
   });
 
-  it('denyUpdate', function (done) {
+  it('denyUpdate', (done) => {
     test.insert({
       denyUpdate: 'foo',
-    }, (error, newId) => {
+    }, (err, newId) => {
       expect(typeof newId).toBe('string');
 
       test.update(newId, {
         $set: {
           denyUpdate: 'foo',
         },
-      }, error => {
+      }, (error) => {
         expect(error && error.message).toBe('Deny update cannot be set during an update in test update');
 
         const validationErrors = test.simpleSchema().namedContext().validationErrors();
@@ -59,11 +59,11 @@ describe('deny', function () {
           $set: {
             denyInsert: 'foo',
           },
-        }, error => {
-          expect(!!error).toBe(false);
+        }, (e) => {
+          expect(!!e).toBe(false);
           done();
         });
       });
     });
- });
+  });
 });
