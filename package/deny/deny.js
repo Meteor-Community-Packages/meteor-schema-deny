@@ -1,6 +1,6 @@
-// collection2-core checks to make sure that simpl-schema package is added
+// collection2 checks to make sure that simpl-schema package is added
 import SimpleSchema from 'simpl-schema';
-import Collection2 from 'meteor/aldeed:collection2-core';
+import Collection2 from 'meteor/aldeed:collection2';
 
 // Extend the schema options allowed by SimpleSchema
 SimpleSchema.extendOptions(['denyInsert', 'denyUpdate']);
@@ -9,8 +9,8 @@ Collection2.on('schema.attached', function (collection, ss) {
   if (ss.version >= 2 && ss.messageBox && typeof ss.messageBox.messages === 'function') {
     ss.messageBox.messages({
       en: {
-        insertNotAllowed: '{{label}} cannot be set during an insert.',
-        updateNotAllowed: '{{label}} cannot be set during an update.'
+        insertNotAllowed: '{{label}} cannot be set during an insert',
+        updateNotAllowed: '{{label}} cannot be set during an update'
       }
     });
   }

@@ -21,7 +21,7 @@ describe('deny', function () {
     test.insert({
       denyInsert: 'foo'
     }, error => {
-      expect(error && error.message).toBe('Deny insert cannot be set during an insert.');
+      expect(error && error.message).toBe('Deny insert cannot be set during an insert in test insert');
 
       const validationErrors = test.simpleSchema().namedContext().validationErrors();
       expect(validationErrors.length).toBe(1);
@@ -45,7 +45,7 @@ describe('deny', function () {
           denyUpdate: 'foo',
         },
       }, error => {
-        expect(error && error.message).toBe('Deny update cannot be set during an update.');
+        expect(error && error.message).toBe('Deny update cannot be set during an update in test update');
 
         const validationErrors = test.simpleSchema().namedContext().validationErrors();
         expect(validationErrors.length).toBe(1);

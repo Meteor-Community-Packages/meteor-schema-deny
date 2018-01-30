@@ -1,7 +1,6 @@
 [![CircleCI](https://circleci.com/gh/aldeed/meteor-schema-deny/tree/master.svg?style=svg)](https://circleci.com/gh/aldeed/meteor-schema-deny/tree/master)
 
-aldeed:schema-deny
-=========================
+# aldeed:schema-deny
 
 A Meteor package that allows you to deny inserting or updating certain properties in your database by setting options in your schema.
 
@@ -9,8 +8,8 @@ A Meteor package that allows you to deny inserting or updating certain propertie
 
 In your Meteor app directory, enter:
 
-```
-$ meteor add aldeed:schema-deny
+```bash
+meteor add aldeed:schema-deny
 ```
 
 ## Usage
@@ -46,13 +45,13 @@ Anyone is welcome to contribute. Fork, make and test your changes (`meteor test-
 ### Running Tests
 
 ```bash
-$ cd tests
-$ npm i && npm test
+cd tests
+npm i && npm test
 ```
 
 ### Running Tests in Watch Mode
 
 ```bash
-$ cd tests
-$ npm i && npm run test:watch
+cd tests
+npm i && npm run test:watch
 ```
