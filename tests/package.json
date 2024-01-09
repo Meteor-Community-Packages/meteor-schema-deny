@@ -9,14 +9,14 @@
   "dependencies": {
     "babel-polyfill": "6.26.0",
     "babel-runtime": "6.26.0",
-    "meteor-node-stubs": "0.3.2",
-    "simpl-schema": "1.4.1"
+    "meteor-node-stubs": "1.2.7",
+    "simpl-schema": "1.13.1"
   },
   "devDependencies": {
-    "chromedriver": "2.33.2",
-    "expect": "1.20.2",
-    "istanbul-lib-coverage": "^1.1.1",
-    "nightmare": "^2.10.0",
-    "selenium-webdriver": "^3.6.0"
+    "chromedriver": "120.0.1",
+    "expect": "29.7.0",
+    "istanbul-lib-coverage": "^3.2.2",
+    "nightmare": "^3.0.2",
+    "selenium-webdriver": "^4.16.0"
   }
 }
