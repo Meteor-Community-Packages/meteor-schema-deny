@@ -2,7 +2,7 @@
 
 ## 3.1.0
 
-Update to depend on `aldeed:collection2@3.5.0` and `aldeed:collection2@4.0.0-beta.6`. Add the appropriate Meteor version constraints, starting lowest with Meteor 2.8.1.
+Update to depend on `aldeed:collection2@3.5.0`. Add the appropriate Meteor version constraints, starting lowest with Meteor v1.12.1.
 
 Update NPM dependencies
 
