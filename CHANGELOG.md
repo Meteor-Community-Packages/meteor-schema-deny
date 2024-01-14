@@ -4,7 +4,7 @@
 
 Update to depend on `aldeed:collection2@3.5.0`. Add the appropriate Meteor version constraints, starting lowest with Meteor v1.12.1.
 
-Update NPM dependencies
+Update testing dependencies
 
 ## 3.0.0
 
