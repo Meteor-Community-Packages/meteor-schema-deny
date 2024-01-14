@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.0
+
+Update to depend on `aldeed:collection2@4.0.0`
+
+Switched back to using `aldeed:simple-schema` instead of the NPM version as per `collection2@4.0.0` requirements.
+
+Minimum Meteor version is `2.8.1` and added compatibility for Meteor 3.
+
 ## 3.1.0
 
 Update to depend on `aldeed:collection2@3.5.0`. Add the appropriate Meteor version constraints, starting lowest with Meteor v1.12.1.
