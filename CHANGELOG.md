@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.1.0
+
+Update to depend on `aldeed:collection2@3.5.0`. Add the appropriate Meteor version constraints, starting lowest with Meteor v1.12.1.
+
+Update NPM dependencies
+
 ## 3.0.0
 
 Updated to depend on `aldeed:collection2@3.0.0` rather than `aldeed:collection2-core`. Core has been merged back into the main package as a 3.0.0 release.
