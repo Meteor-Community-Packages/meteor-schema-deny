@@ -25,4 +25,4 @@ underscore@1.0.13
 aldeed:schema-deny
 dynamic-import@0.7.3
 meteortesting:mocha
-aldeed:collection2@3.0.0
+aldeed:collection2
