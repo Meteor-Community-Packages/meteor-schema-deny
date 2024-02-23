@@ -21,7 +21,7 @@ shell-server@0.5.0            # Server-side component of the `meteor shell` comm
 autopublish@1.0.7             # Publish all data to the clients (for prototyping)
 insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 
-underscore@1.0.13
+underscore@1.6.0
 aldeed:schema-deny
 dynamic-import@0.7.3
 meteortesting:mocha
