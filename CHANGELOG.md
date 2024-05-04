@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.1
+
+Updated to depend on `aldeed:collection2@4.0.1`
+
+Updated to be compatible with Meteor 3.0-rc.0
+
 ## 4.0.0
 
 Update to depend on `aldeed:collection2@4.0.0`
