@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.2
+
+Updated dependencies for `aldeed:collection2@4.0.4`
+
+Added compatibility for `aldeed:simple-schema@2.0.0`
+
+Api versions from now include Meteor `3.0.1` and `3.1`
+
 ## 4.0.1
 
 Updated to depend on `aldeed:collection2@4.0.1`
