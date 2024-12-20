@@ -5,15 +5,16 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.2.1",
+    "@babel/core": "^7.26.0",
+    "@babel/eslint-parser": "^7.25.9",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.1"
   },
+  "babel": {},
   "eslintConfig": {
     "extends": "airbnb-base",
-    "parser": "babel-eslint",
+    "parser": "@babel/eslint-parser",
     "env": {
       "browser": true,
       "jest": true
