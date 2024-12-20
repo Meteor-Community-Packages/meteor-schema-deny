@@ -1,8 +1,7 @@
+/* global Collection2 */
 // collection2 checks to make sure that simpl-schema package is added
-import 'meteor/aldeed:collection2/dynamic';
+import 'meteor/aldeed:collection2/static';
 import SimpleSchema from 'meteor/aldeed:simple-schema';
-
-Collection2.load();
 
 // Extend the schema options allowed by SimpleSchema
 SimpleSchema.extendOptions(['denyInsert', 'denyUpdate']);
@@ -21,7 +20,6 @@ Collection2.on('schema.attached', (collection, ss) => {
     if (!this.isSet) return;
 
     const def = this.definition;
-
     if (def.denyInsert && this.isInsert) return 'insertNotAllowed';
     if (def.denyUpdate && (this.isUpdate || this.isUpsert)) return 'updateNotAllowed';
   });

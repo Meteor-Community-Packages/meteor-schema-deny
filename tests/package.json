@@ -2,21 +2,15 @@
   "name": "tests",
   "private": true,
   "scripts": {
-    "test": "METEOR_PACKAGE_DIRS=../package TEST_BROWSER_DRIVER=nightmare meteor test --once --driver-package meteortesting:mocha",
-    "test:watch": "METEOR_PACKAGE_DIRS=../package TEST_BROWSER_DRIVER=nightmare TEST_WATCH=1 meteor test --driver-package meteortesting:mocha",
+    "test": "METEOR_PACKAGE_DIRS=../package TEST_BROWSER_DRIVER=puppeteer meteor test --once --driver-package meteortesting:mocha",
+    "test:watch": "METEOR_PACKAGE_DIRS=../package TEST_BROWSER_DRIVER=puppeteer TEST_WATCH=1 meteor test --driver-package meteortesting:mocha",
     "test:watch:browser": "METEOR_PACKAGE_DIRS=../package TEST_WATCH=1 meteor test --driver-package meteortesting:mocha"
   },
   "dependencies": {
-    "@babel/runtime": "^7.23.9",
-    "babel-polyfill": "6.26.0",
-    "babel-runtime": "6.26.0",
-    "meteor-node-stubs": "1.2.7"
+    "@babel/runtime": "^7.26.0",
+    "chai": "^4.5.0",
+    "meteor-node-stubs": "^1.2.12",
+    "puppeteer": "^18.2.1"
   },
-  "devDependencies": {
-    "chromedriver": "120.0.2",
-    "expect": "29.7.0",
-    "istanbul-lib-coverage": "^3.2.2",
-    "nightmare": "^3.0.2",
-    "selenium-webdriver": "^4.18.1"
-  }
+  "devDependencies": {}
 }
