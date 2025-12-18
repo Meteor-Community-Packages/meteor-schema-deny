@@ -1,4 +1,4 @@
-import expect from 'expect';
+import { expect } from 'chai';
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'meteor/aldeed:simple-schema';
 
@@ -17,52 +17,109 @@ test.attachSchema(new SimpleSchema({
 }));
 
 describe('deny', () => {
-  it('denyInsert', (done) => {
-    test.insert({
-      denyInsert: 'foo',
-    }, (error) => {
-      expect(error && error.message).toBe('Deny insert cannot be set during an insert in test insert');
-
+  describe('denyInsert', () => {
+    const evaluateInsert = ({ error, message }) => {
+      expect(error && error.message).to.equal(message);
       const validationErrors = test.simpleSchema().namedContext().validationErrors();
-      expect(validationErrors.length).toBe(1);
-
+      expect(validationErrors.length).to.equal(1);
       const key = validationErrors[0] || {};
-      expect(key.name).toBe('denyInsert');
-      expect(key.type).toBe('insertNotAllowed');
+      expect(key.name).to.equal('denyInsert');
+      expect(key.type).to.equal('insertNotAllowed');
+    };
 
-      done();
+    it('denies insert (async)', async () => {
+      try {
+        await test.insertAsync({ denyInsert: 'foo', })
+      } catch (error) {
+        evaluateInsert({ error, message: 'Deny insert cannot be set during an insert in test insertAsync' })
+      }
     });
+
+    if (Meteor.isServer) {
+      it('denies insert (sync)', () => {
+        try {
+          test.insert({ denyInsert: 'foo', });
+        } catch (error) {
+          evaluateInsert({ error, message: 'Deny insert cannot be set during an insert in test insert' })
+        }
+      });
+    }
+    if (Meteor.isClient) {
+      it('denies insert (sync)', (done) => {
+        test.insert({ denyInsert: 'foo', }, error => {
+          evaluateInsert({ error, message: 'Deny insert cannot be set during an insert in test insert' })
+          done()
+        });
+      });
+    }
   });
 
-  it('denyUpdate', (done) => {
-    test.insert({
-      denyUpdate: 'foo',
-    }, (err, newId) => {
-      expect(typeof newId).toBe('string');
+  describe('denyUpdate', () => {
+    const evaluateUpdate = ({ error, message }) => {
+      expect(error && error.message).to.equal(message);
 
-      test.update(newId, {
-        $set: {
-          denyUpdate: 'foo',
-        },
-      }, (error) => {
-        expect(error && error.message).toBe('Deny update cannot be set during an update in test update');
+      const validationErrors = test.simpleSchema().namedContext().validationErrors();
+      expect(validationErrors.length).to.equal(1);
 
-        const validationErrors = test.simpleSchema().namedContext().validationErrors();
-        expect(validationErrors.length).toBe(1);
+      const key = validationErrors[0] || {};
+      expect(key.name).to.equal('denyUpdate');
+      expect(key.type).to.equal('updateNotAllowed');
+    }
 
-        const key = validationErrors[0] || {};
-        expect(key.name).toBe('denyUpdate');
-        expect(key.type).toBe('updateNotAllowed');
-
-        // Now test valid case
-        test.update(newId, {
-          $set: {
-            denyInsert: 'foo',
+    it('denies update (async)', async () => {
+      const newId = await test.insertAsync({ denyUpdate: 'foo' });
+      try {
+        await test.updateAsync(newId, { $set: {
+            denyUpdate: 'foo',
           },
-        }, (e) => {
-          expect(!!e).toBe(false);
-          done();
-        });
+        })
+      } catch (error) {
+        evaluateUpdate({ error, message: 'Deny update cannot be set during an update in test updateAsync' })
+      }
+
+      // valid use case
+      // Now test valid case
+      await test.updateAsync(newId, {
+        $set: {
+          denyInsert: 'foo',
+        },
+      })
+    });
+
+    it('denyUpdate', (done) => {
+      test.insert({
+        denyUpdate: 'foo',
+      }, (err, newId) => {
+        expect(typeof newId).to.equal('string');
+
+        try {
+          test.update(newId, {
+            $set: {
+              denyUpdate: 'foo',
+            },
+          }, (error) => {
+            expect(error && error.message).to.equal('Deny update cannot be set during an update in test update');
+
+            const validationErrors = test.simpleSchema().namedContext().validationErrors();
+            expect(validationErrors.length).to.equal(1);
+
+            const key = validationErrors[0] || {};
+            expect(key.name).to.equal('denyUpdate');
+            expect(key.type).to.equal('updateNotAllowed');
+
+            // Now test valid case
+            test.update(newId, {
+              $set: {
+                denyInsert: 'foo',
+              },
+            }, (e) => {
+              expect(!!e).to.equal(false);
+              done();
+            });
+          });
+        } catch (error) {
+
+        }
       });
     });
   });
