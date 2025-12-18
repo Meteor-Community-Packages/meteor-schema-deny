@@ -10,7 +10,7 @@
     "@babel/runtime": "^7.26.0",
     "chai": "^4.5.0",
     "meteor-node-stubs": "^1.2.12",
-    "puppeteer": "^18.2.1"
+    "puppeteer": "^24.33.0"
   },
   "devDependencies": {}
 }
