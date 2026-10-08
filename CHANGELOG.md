@@ -1,5 +1,9 @@
 # Change Log
 
+## 5.0.1
+
+Added compatibility option with `aldeed:collection2` v5 and `aldeed:simple-schema` v3
+
 ## 4.0.2
 
 Updated dependencies for `aldeed:collection2@4.0.4`
