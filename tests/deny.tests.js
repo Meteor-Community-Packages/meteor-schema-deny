@@ -2,125 +2,62 @@ import { expect } from 'chai';
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'meteor/aldeed:simple-schema';
 
-const test = new Mongo.Collection('test');
-test.attachSchema(new SimpleSchema({
-  denyInsert: {
-    type: String,
-    optional: true,
-    denyInsert: true,
-  },
-  denyUpdate: {
-    type: String,
-    optional: true,
-    denyUpdate: true,
-  },
+const collection = new Mongo.Collection('deny');
+collection.attachSchema(new SimpleSchema({
+  denyInsert: { type: String, optional: true, denyInsert: true },
+  denyUpdate: { type: String, optional: true, denyUpdate: true },
 }));
 
+async function expectDenied(operation, field, type, message) {
+  const error = await operation().then(() => null, (err) => err);
+  expect(error, 'the write must reject').to.be.an.instanceOf(Error);
+  expect(error.message).to.include(message);
+  const errors = collection.simpleSchema().namedContext().validationErrors();
+  expect(errors).to.have.lengthOf(1);
+  expect(errors[0]).to.include({ name: field, type });
+}
+
 describe('deny', () => {
-  describe('denyInsert', () => {
-    const evaluateInsert = ({ error, message }) => {
-      expect(error && error.message).to.equal(message);
-      const validationErrors = test.simpleSchema().namedContext().validationErrors();
-      expect(validationErrors.length).to.equal(1);
-      const key = validationErrors[0] || {};
-      expect(key.name).to.equal('denyInsert');
-      expect(key.type).to.equal('insertNotAllowed');
-    };
-
-    it('denies insert (async)', async () => {
-      try {
-        await test.insertAsync({ denyInsert: 'foo', })
-      } catch (error) {
-        evaluateInsert({ error, message: 'Deny insert cannot be set during an insert in test insertAsync' })
-      }
-    });
-
-    if (Meteor.isServer) {
-      it('denies insert (sync)', () => {
-        try {
-          test.insert({ denyInsert: 'foo', });
-        } catch (error) {
-          evaluateInsert({ error, message: 'Deny insert cannot be set during an insert in test insert' })
-        }
-      });
-    }
-    if (Meteor.isClient) {
-      it('denies insert (sync)', (done) => {
-        test.insert({ denyInsert: 'foo', }, error => {
-          evaluateInsert({ error, message: 'Deny insert cannot be set during an insert in test insert' })
-          done()
-        });
-      });
-    }
+  beforeEach(async () => {
+    const docs = await collection.find().fetchAsync();
+    await Promise.all(docs.map((doc) => collection.removeAsync(doc._id)));
   });
 
-  describe('denyUpdate', () => {
-    const evaluateUpdate = ({ error, message }) => {
-      expect(error && error.message).to.equal(message);
+  it('denies inserts with denyInsert and keeps the error message', async () => {
+    await expectDenied(
+      () => collection.insertAsync({ denyInsert: 'blocked' }),
+      'denyInsert', 'insertNotAllowed', 'Deny insert cannot be set during an insert',
+    );
+    expect(await collection.find().countAsync()).to.equal(0);
+  });
 
-      const validationErrors = test.simpleSchema().namedContext().validationErrors();
-      expect(validationErrors.length).to.equal(1);
+  it('allows inserting denyUpdate and updating denyInsert', async () => {
+    const id = await collection.insertAsync({ denyUpdate: 'initial' });
+    await collection.updateAsync(id, { $set: { denyInsert: 'allowed' } });
+    const doc = await collection.findOneAsync(id);
+    expect(doc.denyInsert).to.equal('allowed');
+    expect(doc.denyUpdate).to.equal('initial');
+  });
 
-      const key = validationErrors[0] || {};
-      expect(key.name).to.equal('denyUpdate');
-      expect(key.type).to.equal('updateNotAllowed');
-    }
+  it('denies updates and leaves the stored value unchanged', async () => {
+    const id = await collection.insertAsync({ denyUpdate: 'initial' });
+    await expectDenied(
+      () => collection.updateAsync(id, { $set: { denyUpdate: 'blocked' } }),
+      'denyUpdate', 'updateNotAllowed', 'Deny update cannot be set during an update',
+    );
+    expect((await collection.findOneAsync(id)).denyUpdate).to.equal('initial');
+  });
 
-    it('denies update (async)', async () => {
-      const newId = await test.insertAsync({ denyUpdate: 'foo' });
-      try {
-        await test.updateAsync(newId, { $set: {
-            denyUpdate: 'foo',
-          },
-        })
-      } catch (error) {
-        evaluateUpdate({ error, message: 'Deny update cannot be set during an update in test updateAsync' })
-      }
+  it('denies upserts that set denyUpdate', async () => {
+    await expectDenied(
+      () => collection.upsertAsync({ _id: 'upsert' }, { $set: { denyUpdate: 'blocked' } }),
+      'denyUpdate', 'updateNotAllowed', 'Deny update cannot be set during an update',
+    );
+    expect(await collection.findOneAsync('upsert')).to.equal(undefined);
+  });
 
-      // valid use case
-      // Now test valid case
-      await test.updateAsync(newId, {
-        $set: {
-          denyInsert: 'foo',
-        },
-      })
-    });
-
-    it('denyUpdate', (done) => {
-      test.insert({
-        denyUpdate: 'foo',
-      }, (err, newId) => {
-        expect(typeof newId).to.equal('string');
-
-        try {
-          test.update(newId, {
-            $set: {
-              denyUpdate: 'foo',
-            },
-          }, (error) => {
-            expect(error && error.message).to.equal('Deny update cannot be set during an update in test update');
-
-            const validationErrors = test.simpleSchema().namedContext().validationErrors();
-            expect(validationErrors.length).to.equal(1);
-
-            const key = validationErrors[0] || {};
-            expect(key.name).to.equal('denyUpdate');
-            expect(key.type).to.equal('updateNotAllowed');
-
-            // Now test valid case
-            test.update(newId, {
-              $set: {
-                denyInsert: 'foo',
-              },
-            }, (e) => {
-              expect(!!e).to.equal(false);
-              done();
-            });
-          });
-        } catch (error) {
-
-        }
-      });
-    });
+  it('allows writes that omit denied fields', async () => {
+    const id = await collection.insertAsync({});
+    expect(await collection.findOneAsync(id)).to.have.property('_id', id);
   });
 });

@@ -12,5 +12,8 @@
     "meteor-node-stubs": "^1.2.12",
     "puppeteer": "^18.2.1"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "meteor": {
+    "testModule": "./deny.tests.js"
+  }
 }
