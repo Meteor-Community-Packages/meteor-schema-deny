@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.1.0
+
+- Allow `aldeed:collection2@5.0.0` and `aldeed:simple-schema@3.0.0` alongside the existing supported versions.
+- Test async insert, update, and upsert validation on the server and client.
+- Collection2 5 requires Meteor 3.1.2+ and async mutation methods. Older dependency ranges remain supported.
+
 ## 4.0.2
 
 Updated dependencies for `aldeed:collection2@4.0.4`
