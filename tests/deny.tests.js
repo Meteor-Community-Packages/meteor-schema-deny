@@ -1,3 +1,4 @@
+import './compatibility.tests';
 import { expect } from 'chai';
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'meteor/aldeed:simple-schema';
