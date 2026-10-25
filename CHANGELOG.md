@@ -1,8 +1,10 @@
 # Change Log
 
-## 5.0.1
+## 5.1.0
 
-Added compatibility option with `aldeed:collection2` v5 and `aldeed:simple-schema` v3
+Added compatibility with `aldeed:collection2` v5 and `aldeed:simple-schema` v3, retaining the previous major version ranges.
+
+Added client and server compatibility tests for denied inserts, updates, and upserts, and permitted writes. No runtime code changes are required.
 
 ## 4.0.2
 
